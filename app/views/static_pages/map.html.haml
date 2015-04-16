@@ -1,10 +1,5 @@
-%p
-  lat:
-  =@lat
-%p
-  lng:
-  =@lng
-%button{ :onclick => "gmapRefreshMarkers(markerBadGuy, position);" } Sprawdź ponownie satelity szpiegowskie
+- if !current_user.vip?
+  %button{ :onclick => "gmapRefreshMarkers(markerBadGuy, position);" } Sprawdź ponownie satelity szpiegowskie
 #map-container
   #map
 
