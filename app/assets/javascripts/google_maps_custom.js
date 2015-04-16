@@ -16,6 +16,7 @@ function gmap_show(lat,lng) {
 };
 
 function displayOnMap(position){
+  alert(position.coords.latitude);
   var marker = handler.addMarker({
     lat: position.coords.latitude,
     lng: position.coords.longitude,
