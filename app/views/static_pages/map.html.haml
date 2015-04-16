@@ -4,15 +4,39 @@
 %p
   lng:
   =@lng
-
+%button{ :onclick => "gmapRefreshMarkers(markerBadGuy, position);" } Sprawdź ponownie satelity szpiegowskie
 #map-container
   #map
 
 :javascript
-  $(document).ready(function(){
-    var lat = #{@lat};    // pass ruby variable to javascript
-    var lng = #{@lng};    // pass ruby variable to javascript
-    alert("jestem 1");
+  var map;
+  var markerBadGuy;
+  var markerYou;
+  var position;
   
-    gmap_show(lat,lng);    // init show map for company card (only print marker)
+
+  $(document).ready(function(){
+    map = gmapShowMap();    // init show map for company card (only print marker);
+    
+    var position = new google.maps.LatLng(0,0);
+    
+    markerYou = gmapDrawMarkerYou(map); 
+
+    markerBadGuy = gmapDrawMarkerBadGuy(map, markerYou.getPosition());    
+    
+    google.maps.event.addListener(map, "click", function(event) {
+      var lat = event.latLng.lat();
+      var lng = event.latLng.lng();
+      position = new google.maps.LatLng(lat,lng);
+      gmapRefreshMarkers(markerBadGuy, position);
+      $.ajax({
+        url: '/update_bad_guy',
+        data: { lat: lat, lng: lng },
+        dataType: 'script'
+      })
+
+    });
+    
+    
   });
+

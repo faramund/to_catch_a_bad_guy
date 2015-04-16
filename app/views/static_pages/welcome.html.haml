@@ -1,0 +1,10 @@
+%p
+   
+  - if current_user.vip?
+    Witaj jesteś w trybie złodziej.
+    = button_to("Mapa dla złodzieja", "/map")
+
+  - else
+    Witaj jesteś w trybie poszukiwacza.
+    = button_to("Mapa dla poszukiwaczy", "/map_for_seekers")
+    

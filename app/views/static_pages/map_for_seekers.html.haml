@@ -1,0 +1,29 @@
+%p
+  lat:
+  =@lat
+%p
+  lng:
+  =@lng
+%button{ :onclick => "gmapRefreshBadGuyMarker(markerBadGuy);" } Sprawdź ponownie satelity szpiegowskie
+#map-container
+  #map
+
+:javascript
+  var map;
+  var markerBadGuy;
+  var markerYou;
+  var position;
+  
+
+  $(document).ready(function(){
+    map = gmapShowMap();    // init show map for company card (only print marker);
+    
+    var position = new google.maps.LatLng(#{@bad_guy.lat},#{@bad_guy.lng});
+    
+    markerYou = gmapDrawMarkerYou(map); 
+
+    markerBadGuy = gmapDrawMarkerBadGuy(map, position);    
+    
+    
+  });
+
