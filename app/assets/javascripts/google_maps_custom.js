@@ -3,9 +3,13 @@ function gmap_show(lat,lng) {
     return 0;
   }
   
+  alert("jestem 2");
+  
 
   handler = Gmaps.build('Google');
   handler.buildMap({ internal: {id: 'map'}}, function(){
+    alert("jestem 3");
+  
     if(navigator.geolocation)
       navigator.geolocation.getCurrentPosition(displayOnMap);
 
