@@ -15,12 +15,13 @@ function gmapDrawMarkerBadGuy(map, position){
   return marker;
 };
 
-function gmapDrawMarkerYou(map){
+function gmapDrawMarkerYou(map, position){
   var marker = new google.maps.Marker({
     infowindow: "Tutaj jesteś.",
     map: map
   });
-  gmapSetMarkerOnCurrentPosition(map,marker);
+
+  gmapSetMarkerOnCurrentPosition(map,marker, position);
   return marker;
 };
 
@@ -28,11 +29,12 @@ function gmapRefreshMarkers(marker, position){
   marker.setPosition(position);
 };
 
-function gmapSetMarkerOnCurrentPosition(map,marker){
+function gmapSetMarkerOnCurrentPosition(map, marker, extra_position){
+      
   var browserSupportFlag =  new Boolean();
   var initialLocation;
-  var siberia = new google.maps.LatLng(60, 105);
-  var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+  var siberia = new google.maps.LatLng(52.426294, 16.900394);
+  var newyork = new google.maps.LatLng(52.426294, 16.900394);
   // Try W3C Geolocation (Preferred)
   if(navigator.geolocation) {
     
@@ -40,7 +42,13 @@ function gmapSetMarkerOnCurrentPosition(map,marker){
     navigator.geolocation.getCurrentPosition(function(position) {
       initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
       marker.setPosition(initialLocation);
-      map.setCenter(initialLocation);
+      var LatLngList = new Array (initialLocation, extra_position);
+      var bounds = new google.maps.LatLngBounds ();
+      for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+        bounds.extend (LatLngList[i]);
+      }
+      map.fitBounds (bounds);
+      
   
     }, function() {
       handleNoGeolocation(browserSupportFlag);
@@ -55,13 +63,21 @@ function gmapSetMarkerOnCurrentPosition(map,marker){
 
   function handleNoGeolocation(errorFlag) {
     if (errorFlag == true) {
-      alert("Geolocation service failed.");
+      //alert("Geolocation service failed.");
       initialLocation = newyork;
     } else {
-      alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
+      //alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
       initialLocation = siberia;
     }
     
+    var LatLngList = new Array (initialLocation, extra_position);
+      var bounds = new google.maps.LatLngBounds ();
+      for (var i = 0, LtLgLen = LatLngList.length; i < LtLgLen; i++) {
+        bounds.extend (LatLngList[i]);
+      }
+      map.fitBounds (bounds);
+      marker.setPosition(initialLocation);
+      
   }
       
   return initialLocation;

@@ -1,12 +1,8 @@
-%p
-  lat:
-  =@lat
-%p
-  lng:
-  =@lng
-%button{ :onclick => "gmapRefreshBadGuyMarker(markerBadGuy);" } Sprawdź ponownie satelity szpiegowskie
 #map-container
   #map
+
+%h3
+  %button.refresh{ :onclick => "gmapRefreshBadGuyMarker(markerBadGuy);" } Refresh spy satellites
 
 :javascript
   var map;
@@ -20,10 +16,10 @@
     
     var position = new google.maps.LatLng(#{@bad_guy.lat},#{@bad_guy.lng});
     
-    markerYou = gmapDrawMarkerYou(map); 
+    markerYou = gmapDrawMarkerYou(map, position); 
 
-    markerBadGuy = gmapDrawMarkerBadGuy(map, position);    
-    
+    markerBadGuy = gmapDrawMarkerBadGuy(map, position); 
+
     
   });
 

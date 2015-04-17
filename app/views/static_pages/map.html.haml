@@ -13,11 +13,11 @@
   $(document).ready(function(){
     map = gmapShowMap();    // init show map for company card (only print marker);
     
-    var position = new google.maps.LatLng(0,0);
+    var position = new google.maps.LatLng(#{@bad_guy.lat},#{@bad_guy.lng});
     
-    markerYou = gmapDrawMarkerYou(map); 
+    markerYou = gmapDrawMarkerYou(map, position); 
 
-    markerBadGuy = gmapDrawMarkerBadGuy(map, markerYou.getPosition());    
+    markerBadGuy = gmapDrawMarkerBadGuy(map, position);    
     
     google.maps.event.addListener(map, "click", function(event) {
       var lat = event.latLng.lat();
